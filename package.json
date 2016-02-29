@@ -1,0 +1,27 @@
+{
+  "name": "git-diff-archive",
+  "version": "0.0.1",
+  "description": "__TODO__",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "git",
+    "zip",
+    "tar.gz",
+    "tar.bz2"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "__TODO__"
+  },
+  "author": "tsuyoshiwada",
+  "bin": {
+    "git-diff-archive": "bin/cmd.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "minimist": "^1.2.0"
+  }
+}
