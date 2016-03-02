@@ -32,7 +32,7 @@ function gitDiffArchive(commit, oldCommit, options) {
   return new Promise((resolve, reject) => {
     const commit1 = commit;
     const commit2 = typeof oldCommit === "string" ? oldCommit : null;
-    const params = assign({}, defaults, commit2 == null ? (options || {}) : (oldCommit || {}));
+    const params = assign({}, defaults, commit2 != null ? (options || {}) : (oldCommit || {}));
 
     if (!gitCommandExists()) {
       return reject("git command not exist");
@@ -52,15 +52,28 @@ function gitDiffArchive(commit, oldCommit, options) {
       }
     }
 
-    const lines = getExecLines(`git diff --name-only --diff-filter=${params.diffFilter} ${diff}`);
+    const cmd = `git diff --name-only --diff-filter=${params.diffFilter} ${diff}`;
+    const lines = getExecLines(cmd);
     const files = filterExistsFiles(lines);
+    const output = createOutputPath(params.output);
+    const spinner = new Spinner("processing... %s");
+    spinner.setSpinnerString(spinnerStringID);
 
     if (files.length === 0) {
       return reject("diff file does not exist");
     }
 
-    // TODO: create archive file
-    resolve(files);
+    spinner.start();
+    createArchive(files, output, params.format, params.prefix)
+      .then((archive) => {
+        spinner.stop(true);
+        resolve({
+          bytes: archive.pointer(),
+          cmd,
+          output
+        });
+      })
+      .catch(reject);
   });
 }
 
@@ -93,5 +106,64 @@ function filterExistsFiles(files) {
 }
 
 function createArchive(files, output, format, prefix) {
-  // TODO
+  return new Promise((resolve, reject) => {
+    const dir = path.dirname(output);
+    console.log(output, dir);
+    mkdirp.sync(dir);
+
+    const stream = fs.createWriteStream(output);
+    const archive = archiver(format);
+
+    stream.on("close", () => {
+      resolve(archive);
+    });
+
+    archive.on("error", (err) => {
+      reject(err);
+    });
+
+    archive.pipe(stream);
+
+    files.forEach((file) => {
+      archive.append(fs.createReadStream(file), {
+        name: file,
+        prefix
+      });
+    });
+
+    archive.finalize();
+  });
+}
+
+function createOutputPath(output) {
+  const d = new Date();
+  const date = getDate(d);
+  const time = getTime(d);
+  const datetime = [date, time].join("");
+  const dirname = process.cwd().split(path.sep).pop();
+  const random = Math.random().toString(36).slice(-8);
+
+  return template(output, {
+    date,
+    time,
+    datetime,
+    dirname,
+    random
+  });
+}
+
+function getDate(date) {
+  return [
+    ("0" + date.getFullYear()).slice(-2),
+    ("0" + (date.getMonth() + 1)).slice(-2),
+    ("0" + date.getDate()).slice(-2)
+  ].join("");
+}
+
+function getTime(date) {
+  return [
+    ("0" + date.getHours()).slice(-2),
+    ("0" + date.getMinutes() + 1).slice(-2),
+    ("0" + date.getSeconds()).slice(-2)
+  ].join("");
 }
