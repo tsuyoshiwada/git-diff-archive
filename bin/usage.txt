@@ -1,8 +1,9 @@
 Usage:
-  git-diff-archive COMMIT_ID, [OLD_COMMIT_ID], {OPTIONS}
+  git_diff_archive COMMIT, [OLD_COMMIT], {Options}
 
 Description:
-  __TODO__
+  Archive of the diff files using git.
 
 Options:
+  -h, --help   __TODO__
   -t, --todo   __TODO__

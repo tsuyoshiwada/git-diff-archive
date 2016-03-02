@@ -1,27 +1,39 @@
 {
   "name": "git-diff-archive",
   "version": "0.0.1",
-  "description": "__TODO__",
+  "description": "Archive of the diff files using git.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha",
+    "test:watch": "mocha -w"
   },
   "keywords": [
     "git",
+    "cli",
+    "archive",
     "zip",
-    "tar.gz",
-    "tar.bz2"
+    "tar"
   ],
   "repository": {
     "type": "git",
-    "url": "__TODO__"
+    "url": "https://github.com/tsuyoshiwada/git-diff-archive.git"
   },
+  "bugs": {
+    "url": "https://github.com/tsuyoshiwada/git-diff-archive/issues"
+  },
+  "homepage": "https://github.com/tsuyoshiwada/git-diff-archive",
   "author": "tsuyoshiwada",
-  "bin": {
-    "git-diff-archive": "bin/cmd.js"
-  },
   "license": "MIT",
+  "bin": {
+    "git_diff_archive": "bin/cmd.js"
+  },
   "dependencies": {
     "minimist": "^1.2.0"
+  },
+  "devDependencies": {
+    "glob": "^7.0.0",
+    "mocha": "^2.4.5",
+    "power-assert": "^1.2.0",
+    "rimraf": "^2.5.2"
   }
 }
