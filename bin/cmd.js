@@ -40,5 +40,5 @@ gitDiffArchive(commit, oldCommit, options)
     console.log(colors.cyan("Output >>> "), res.output);
   })
   .catch((err) => {
-    console.error(colors.red(err));
+    console.error(colors.red(`[Error] ${err}`));
   });
