@@ -31,7 +31,13 @@
     "git_diff_archive": "bin/cmd.js"
   },
   "dependencies": {
-    "minimist": "^1.2.0"
+    "archiver": "^0.21.0",
+    "cli-spinner": "^0.2.4",
+    "minimist": "^1.2.0",
+    "mkdirp": "^0.5.1",
+    "object-assign": "^4.0.1",
+    "string-template": "^1.0.0",
+    "which": "^1.2.4"
   },
   "devDependencies": {
     "eslint": "^2.2.0",
