@@ -1,0 +1,16 @@
+{
+  "root": true,
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "env": {
+    "node": true,
+    "commonjs": true,
+    "mocha": true
+  },
+  "extends": "",
+  "rules": {
+    "no-console": 0
+  }
+}

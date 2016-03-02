@@ -4,8 +4,11 @@
   "description": "Archive of the diff files using git.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "test:watch": "mocha -w"
+    "test": "npm run mocha",
+    "test:watch": "npm run mocha:watch",
+    "mocha": "mocha",
+    "mocha:watch": "mocha -w",
+    "lint": "eslint index.js bin/**.js test/**.js"
   },
   "keywords": [
     "git",
@@ -31,6 +34,7 @@
     "minimist": "^1.2.0"
   },
   "devDependencies": {
+    "eslint": "^2.2.0",
     "glob": "^7.0.0",
     "mocha": "^2.4.5",
     "power-assert": "^1.2.0",
