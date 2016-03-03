@@ -1,12 +1,17 @@
 "use strict";
 
+const fs = require("fs");
+const path = require("path");
 const assert = require("power-assert");
+const glob = require("glob");
 const rimraf = require("rimraf");
 const unzip = require("unzip");
 const gitDiffArchive = require("../");
 
-const ID1 = "";
-const ID2 = "";
+const ID1 = "b148b54";
+const ID2 = "acd6e6d";
+const EMPTY_ID1 = "f74c8e2";
+const EMPTY_ID2 = "574443a";
 const OUTPUT_DIR = `${__dirname}/tmp`;
 const OUTPUT_PATH = `${OUTPUT_DIR}/output.zip`;
 
@@ -15,8 +20,42 @@ describe("git-diff-archive", () => {
     rimraf.sync(OUTPUT_DIR);
   });
 
-  it("should be chained promise", () => {
-    // TODO
-    assert(false);
+  it("should be chained promise", (done) => {
+    gitDiffArchive(ID1, ID2, {output: OUTPUT_PATH})
+      .then((res) => {
+        assert(true);
+        done();
+      });
+  });
+
+  it("should be cathcing error", (done) => {
+    gitDiffArchive(EMPTY_ID1, EMPTY_ID2, {output: OUTPUT_PATH})
+      .catch((err) => {
+        assert(true);
+        done();
+      });
+  });
+
+  it("should be created diff zip", (done) => {
+    gitDiffArchive(ID1, ID2, {output: OUTPUT_PATH})
+      .then((res) => {
+        const stat = fs.statSync(OUTPUT_PATH);
+        assert(stat.isFile() === true);
+
+        fs.createReadStream(OUTPUT_PATH)
+          .pipe(unzip.Extract(({path: OUTPUT_DIR})))
+          .on("close", () => {
+            const files = glob.sync(`${OUTPUT_DIR}/**/*`, {nodir: true, dot: true});
+            assert(files.length === 7);
+            assert(files.indexOf(OUTPUT_PATH) > -1);
+            assert(files.indexOf(`${OUTPUT_DIR}/files/.eslintrc`) > -1);
+            assert(files.indexOf(`${OUTPUT_DIR}/files/LICENSE`) > -1);
+            assert(files.indexOf(`${OUTPUT_DIR}/files/README.md`) > -1);
+            assert(files.indexOf(`${OUTPUT_DIR}/files/bin/cmd.js`) > -1);
+            assert(files.indexOf(`${OUTPUT_DIR}/files/bin/usage.txt`) > -1);
+            assert(files.indexOf(`${OUTPUT_DIR}/files/package.json`) > -1);
+            done();
+          });
+      });
   });
 });
