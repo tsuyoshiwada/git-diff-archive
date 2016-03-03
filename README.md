@@ -2,6 +2,8 @@ git-diff-archive
 ================
 
 [![Build Status](https://travis-ci.org/tsuyoshiwada/git-diff-archive.svg?branch=master)](https://travis-ci.org/tsuyoshiwada/git-diff-archive)
+[![npm version](https://img.shields.io/npm/v/git-diff-archive.svg?style=flat-square)](http://badge.fury.io/js/git-diff-archive)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/tsuyoshiwada/git-diff-archive/master/LICENSE)
 
 Archive of the diff files using on node.js and git.
 
