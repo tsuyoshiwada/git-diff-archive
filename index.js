@@ -11,9 +11,9 @@ const Spinner = require("cli-spinner").Spinner;
 const archiver = require("archiver");
 
 const defaults = {
-  diffFilter: "*",
+  diffFilter: "ACDMRTUXB",
   format: "zip",
-  prefix: "{dirname}", //TODO: template
+  prefix: "{dirname}",
   output: "{dirname}-{datetime}.zip"
 };
 
@@ -55,7 +55,8 @@ function gitDiffArchive(commit, oldCommit, options) {
     const cmd = `git diff --name-only --diff-filter=${params.diffFilter} ${diff}`;
     const lines = getExecLines(cmd);
     const files = filterExistsFiles(lines);
-    const output = createOutputPath(params.output);
+    const output = createPath(params.output);
+    const prefix = createPath(params.prefix);
     const spinner = new Spinner("processing... %s");
     spinner.setSpinnerString(spinnerStringID);
 
@@ -64,13 +65,14 @@ function gitDiffArchive(commit, oldCommit, options) {
     }
 
     spinner.start();
-    createArchive(files, output, params.format, params.prefix)
+    createArchive(files, output, params.format, prefix)
       .then((archive) => {
         spinner.stop(true);
         resolve({
           bytes: archive.pointer(),
           cmd,
           output,
+          prefix,
           files
         });
       })
@@ -138,7 +140,7 @@ function createArchive(files, output, format, prefix) {
   });
 }
 
-function createOutputPath(output) {
+function createPath(src) {
   const d = new Date();
   const date = getDate(d);
   const time = getTime(d);
@@ -146,7 +148,7 @@ function createOutputPath(output) {
   const dirname = process.cwd().split(path.sep).pop();
   const random = Math.random().toString(36).slice(-8);
 
-  return template(output, {
+  return template(src, {
     date,
     time,
     datetime,

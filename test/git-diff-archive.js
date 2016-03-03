@@ -58,12 +58,12 @@ describe("git-diff-archive", () => {
             const files = glob.sync(`${OUTPUT_DIR}/**/*`, {nodir: true, dot: true});
             assert(files.length === 7);
             assert(files.indexOf(OUTPUT_PATH) > -1);
-            assert(files.indexOf(`${OUTPUT_DIR}/files/.eslintrc`) > -1);
-            assert(files.indexOf(`${OUTPUT_DIR}/files/LICENSE`) > -1);
-            assert(files.indexOf(`${OUTPUT_DIR}/files/README.md`) > -1);
-            assert(files.indexOf(`${OUTPUT_DIR}/files/bin/cmd.js`) > -1);
-            assert(files.indexOf(`${OUTPUT_DIR}/files/bin/usage.txt`) > -1);
-            assert(files.indexOf(`${OUTPUT_DIR}/files/package.json`) > -1);
+            assert(files.indexOf(`${OUTPUT_DIR}/git-diff-archive/.eslintrc`) > -1);
+            assert(files.indexOf(`${OUTPUT_DIR}/git-diff-archive/LICENSE`) > -1);
+            assert(files.indexOf(`${OUTPUT_DIR}/git-diff-archive/README.md`) > -1);
+            assert(files.indexOf(`${OUTPUT_DIR}/git-diff-archive/bin/cmd.js`) > -1);
+            assert(files.indexOf(`${OUTPUT_DIR}/git-diff-archive/bin/usage.txt`) > -1);
+            assert(files.indexOf(`${OUTPUT_DIR}/git-diff-archive/package.json`) > -1);
             done();
           });
       });

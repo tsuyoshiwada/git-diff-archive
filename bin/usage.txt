@@ -20,9 +20,10 @@ Options:
 
 Defaults:
 
-  --format = zip
-  --prefix = {dirname}
-  --output = {dirname}-{datetime}.zip
+  --format      = zip
+  --prefix      = {dirname}
+  --output      = {dirname}-{datetime}.zip
+  --diff-filter = ACDMRTUXB
 
 
 Examples:
