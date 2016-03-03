@@ -1,9 +1,30 @@
 Usage:
+
   git_diff_archive COMMIT, [OLD_COMMIT], {Options}
 
+
 Description:
-  Archive of the diff files using git.
+
+  Archive of the diff files using on node.js and git.
+
 
 Options:
-  -h, --help   __TODO__
-  -t, --todo   __TODO__
+
+  -h, --help                 Displays this help.
+  -f, --format (zip|tar)     Specified in the `zip` or `tar` the format of the archive.
+  -o, --output               Output destination path of the archive.
+  -p, --prefix               Prepended to the filenames in the archive.
+  -F, --diff-filter          `git diff --diff-filter` and a similar designation.
+      (A|C|D|M|R|T|U|X|B|*)
+
+
+Defaults:
+
+  --format = zip
+  --prefix = {dirname}
+  --output = {dirname}-{datetime}.zip
+
+
+Examples:
+
+  __TODO__
