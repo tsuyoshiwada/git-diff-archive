@@ -56,12 +56,11 @@ describe("git-diff-archive", () => {
           .pipe(unzip.Extract(({path: OUTPUT_DIR})))
           .on("close", () => {
             const files = glob.sync(`${OUTPUT_DIR}/**/*`, {nodir: true, dot: true});
-            assert(files.length === 7);
+            assert(files.length === 6);
             assert(files.indexOf(OUTPUT_PATH) > -1);
             assert(files.indexOf(`${OUTPUT_DIR}/git-diff-archive/.eslintrc`) > -1);
             assert(files.indexOf(`${OUTPUT_DIR}/git-diff-archive/LICENSE`) > -1);
             assert(files.indexOf(`${OUTPUT_DIR}/git-diff-archive/README.md`) > -1);
-            assert(files.indexOf(`${OUTPUT_DIR}/git-diff-archive/bin/cmd.js`) > -1);
             assert(files.indexOf(`${OUTPUT_DIR}/git-diff-archive/bin/usage.txt`) > -1);
             assert(files.indexOf(`${OUTPUT_DIR}/git-diff-archive/package.json`) > -1);
             done();

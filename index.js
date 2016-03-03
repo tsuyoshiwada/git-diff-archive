@@ -14,7 +14,7 @@ const defaults = {
   diffFilter: "ACDMRTUXB",
   format: "zip",
   prefix: "{dirname}",
-  output: "{dirname}-{datetime}.zip"
+  output: "{dirname}-{datetime}.{format}"
 };
 
 const supportFormats = [
@@ -32,7 +32,7 @@ function gitDiffArchive(commit, oldCommit, options) {
   return new Promise((resolve, reject) => {
     const commit1 = commit;
     const commit2 = typeof oldCommit === "string" ? oldCommit : null;
-    const params = assign({}, defaults, commit2 != null ? (options || {}) : (oldCommit || {}));
+    const params = assign({}, defaults, typeof oldCommit === "object" ? oldCommit : (options || {}));
 
     if (!gitCommandExists()) {
       return reject("git command not exist");
@@ -55,8 +55,8 @@ function gitDiffArchive(commit, oldCommit, options) {
     const cmd = `git diff --name-only --diff-filter=${params.diffFilter} ${diff}`;
     const lines = getExecLines(cmd);
     const files = filterExistsFiles(lines);
-    const output = createPath(params.output);
-    const prefix = createPath(params.prefix);
+    const output = createPath(params.output, params.format);
+    const prefix = createPath(params.prefix, params.format);
     const spinner = new Spinner("processing... %s");
     spinner.setSpinnerString(spinnerStringID);
 
@@ -140,7 +140,7 @@ function createArchive(files, output, format, prefix) {
   });
 }
 
-function createPath(src) {
+function createPath(src, format) {
   const d = new Date();
   const date = getDate(d);
   const time = getTime(d);
@@ -153,7 +153,8 @@ function createPath(src) {
     time,
     datetime,
     dirname,
-    random
+    random,
+    format
   });
 }
 
