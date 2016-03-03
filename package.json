@@ -28,7 +28,7 @@
   "author": "tsuyoshiwada",
   "license": "MIT",
   "bin": {
-    "git_diff_archive": "bin/cmd.js"
+    "git_diff_archive": "bin/git_diff_archive"
   },
   "dependencies": {
     "archiver": "^0.21.0",

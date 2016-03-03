@@ -26,7 +26,7 @@ if (argv.help) {
 // parse options
 const commits = argv._.slice();
 const commit = commits[0];
-const oldCommit = commits[1];
+const oldCommit = commits[1]
 const options = {};
 if (argv["diff-filter"]) options.diffFilter = argv["diff-filter"];
 if (argv.format) options.format = argv.format;
