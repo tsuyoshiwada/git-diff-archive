@@ -1,7 +1,7 @@
 {
   "name": "git-diff-archive",
   "version": "0.0.1",
-  "description": "Archive of the diff files using git.",
+  "description": "Archive of the diff files using on node.js and git.",
   "main": "index.js",
   "scripts": {
     "test": "npm run mocha",
@@ -33,6 +33,7 @@
   "dependencies": {
     "archiver": "^0.21.0",
     "cli-spinner": "^0.2.4",
+    "colors": "^1.1.2",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "object-assign": "^4.0.1",
