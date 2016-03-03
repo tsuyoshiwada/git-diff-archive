@@ -1,7 +1,7 @@
 {
   "name": "git-diff-archive",
   "version": "0.0.1",
-  "description": "Archive of the diff files using on node.js and git.",
+  "description": "Archive of the diff files using node.js and git.",
   "main": "index.js",
   "scripts": {
     "test": "npm run mocha",

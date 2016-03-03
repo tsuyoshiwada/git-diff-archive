@@ -1,11 +1,11 @@
 git-diff-archive
 ================
 
-[![Build Status](https://travis-ci.org/tsuyoshiwada/git-diff-archive.svg?branch=master)](https://travis-ci.org/tsuyoshiwada/git-diff-archive)
+[![Build Status](http://img.shields.io/travis/tsuyoshiwada/git-diff-archive.svg?style=flat-square)](https://travis-ci.org/tsuyoshiwada/git-diff-archive)
 [![npm version](https://img.shields.io/npm/v/git-diff-archive.svg?style=flat-square)](http://badge.fury.io/js/git-diff-archive)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/tsuyoshiwada/git-diff-archive/master/LICENSE)
 
-Archive of the diff files using on node.js and git.
+Archive of the diff files using node.js and git.
 
 
 
@@ -40,7 +40,7 @@ Usage:
 
 Description:
 
-  Archive of the diff files using on node.js and git.
+  Archive of the diff files using node.js and git.
   `COMMIT` and `OLD_COMMIT` is equivalent to the index that specify in the `git diff`.
 
   `PATH_SYNTAX` can be used in the `output` and `prefix` option.

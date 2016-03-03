@@ -5,7 +5,7 @@ Usage:
 
 Description:
 
-  Archive of the diff files using on node.js and git.
+  Archive of the diff files using node.js and git.
   `COMMIT` and `OLD_COMMIT` is equivalent to the index that specify in the `git diff`.
 
   `PATH_SYNTAX` can be used in the `output` and `prefix` option.
