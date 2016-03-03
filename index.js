@@ -70,10 +70,14 @@ function gitDiffArchive(commit, oldCommit, options) {
         resolve({
           bytes: archive.pointer(),
           cmd,
-          output
+          output,
+          files
         });
       })
-      .catch(reject);
+      .catch((err) => {
+        spinner.stop(true);
+        reject(err);
+      });
   });
 }
 
@@ -108,7 +112,6 @@ function filterExistsFiles(files) {
 function createArchive(files, output, format, prefix) {
   return new Promise((resolve, reject) => {
     const dir = path.dirname(output);
-    console.log(output, dir);
     mkdirp.sync(dir);
 
     const stream = fs.createWriteStream(output);
