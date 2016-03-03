@@ -11,9 +11,9 @@ const Spinner = require("cli-spinner").Spinner;
 const archiver = require("archiver");
 
 const defaults = {
-  diffFilter: "AMCRD",
+  diffFilter: "*",
   format: "zip",
-  prefix: "files",
+  prefix: "{dirname}", //TODO: template
   output: "{dirname}-{datetime}.zip"
 };
 

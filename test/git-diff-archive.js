@@ -28,12 +28,22 @@ describe("git-diff-archive", () => {
       });
   });
 
-  it("should be cathcing error", (done) => {
-    gitDiffArchive(EMPTY_ID1, EMPTY_ID2, {output: OUTPUT_PATH})
-      .catch((err) => {
-        assert(true);
-        done();
-      });
+  describe("should be cathing errors", () => {
+    it("format", (done) => {
+      gitDiffArchive(ID1, ID2, {output: OUTPUT_PATH, format: "hoge"})
+        .catch((err) => {
+          assert(err === "specified format type is not supported");
+          done();
+        });
+    });
+
+    it("revision", (done) => {
+      gitDiffArchive(EMPTY_ID1, EMPTY_ID2, {output: OUTPUT_PATH})
+        .catch((err) => {
+          assert(err === "diff file does not exist");
+          done();
+        });
+    });
   });
 
   it("should be created diff zip", (done) => {
