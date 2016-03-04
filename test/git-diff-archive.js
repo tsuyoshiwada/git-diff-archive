@@ -67,4 +67,35 @@ describe("git-diff-archive", () => {
           });
       });
   });
+
+  describe("should arguments are passed", () => {
+    it("two id", (done) => {
+      gitDiffArchive(ID1, ID2, {
+        prefix: "files",
+        output: OUTPUT_PATH,
+        diffFilter: "AMCRD"
+      })
+      .then((res) => {
+        assert(res.cmd === `git diff --name-only --diff-filter=AMCRD ${ID1} ${ID2}`);
+        assert(res.output === OUTPUT_PATH);
+        assert(res.prefix === "files");
+        done();
+      });
+    });
+
+    it("one id", (done) => {
+      gitDiffArchive(ID1, {
+        prefix: "hoge",
+        output: OUTPUT_PATH,
+        diffFilter: "AMCRDB"
+      })
+      .then((res) => {
+        console.log(res);
+        assert(res.cmd === `git diff --name-only --diff-filter=AMCRDB ${ID1}`);
+        assert(res.output === OUTPUT_PATH);
+        assert(res.prefix === "hoge");
+        done();
+      });
+    });
+  });
 });

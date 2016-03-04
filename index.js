@@ -8,13 +8,15 @@ const which = require("which");
 const mkdirp = require("mkdirp");
 const template = require("string-template");
 const Spinner = require("cli-spinner").Spinner;
+const colors = require("colors");
 const archiver = require("archiver");
 
 const defaults = {
   diffFilter: "ACDMRTUXB",
   format: "zip",
   prefix: "{dirname}",
-  output: "{dirname}-{datetime}.{format}"
+  output: "{dirname}-{datetime}.{format}",
+  verbose: false
 };
 
 const supportFormats = [
@@ -65,9 +67,15 @@ function gitDiffArchive(commit, oldCommit, options) {
     }
 
     spinner.start();
-    createArchive(files, output, params.format, prefix)
+    createArchive(files, output, params.format, prefix, params.verbose)
       .then((archive) => {
         spinner.stop(true);
+        if (params.verbose) {
+          console.log(colors.blue("[DONE]"));
+          console.log(colors.blue("  command >>>"), cmd);
+          console.log(colors.blue("  prefix  >>>"), prefix);
+          console.log(colors.blue("  files   >>>"), files.join(", "));
+        }
         resolve({
           bytes: archive.pointer(),
           cmd,
@@ -111,7 +119,7 @@ function filterExistsFiles(files) {
   });
 }
 
-function createArchive(files, output, format, prefix) {
+function createArchive(files, output, format, prefix, verbose) {
   return new Promise((resolve, reject) => {
     const dir = path.dirname(output);
     mkdirp.sync(dir);
@@ -121,6 +129,12 @@ function createArchive(files, output, format, prefix) {
 
     stream.on("close", () => {
       resolve(archive);
+    });
+
+    archive.on("entry", (entry) => {
+      if (verbose) {
+        console.log(colors.blue("[INFO] >>> "), entry.name);
+      }
     });
 
     archive.on("error", (err) => {
