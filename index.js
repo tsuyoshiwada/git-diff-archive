@@ -16,7 +16,8 @@ const defaults = {
   format: "zip",
   prefix: "{dirname}",
   output: "{dirname}-{datetime}.{format}",
-  verbose: false
+  verbose: false,
+  dryRun: false
 };
 
 const supportFormats = [
@@ -67,7 +68,7 @@ function gitDiffArchive(commit, oldCommit, options) {
     }
 
     spinner.start();
-    createArchive(files, output, params.format, prefix, params.verbose)
+    createArchive(files, output, params.format, prefix, params.verbose, params.dryRun)
       .then((archive) => {
         spinner.stop(true);
         if (params.verbose) {
@@ -119,8 +120,14 @@ function filterExistsFiles(files) {
   });
 }
 
-function createArchive(files, output, format, prefix, verbose) {
+function createArchive(files, output, format, prefix, verbose, dryRun) {
   return new Promise((resolve, reject) => {
+    if (dryRun) {
+      console.log(colors.blue("[DRY RUN]"));
+      files.forEach(file => console.log(`> ${file}`));
+      return resolve({pointer: () => 0});
+    }
+
     const dir = path.dirname(output);
     mkdirp.sync(dir);
 
