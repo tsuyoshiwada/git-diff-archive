@@ -1,6 +1,10 @@
 language: node_js
 node_js:
+  - "5.7"
+  - "4.3"
   - "4.2"
+  - "4.1"
+  - "4.0"
 branches:
   only:
     - master
