@@ -13,6 +13,7 @@ const argv = minimist(process.argv.slice(2), {
     f: "format",
     o: "output",
     p: "prefix",
+    n: "dry-run",
     v: "verbose",
     h: "help"
   }
@@ -33,13 +34,14 @@ if (argv["diff-filter"]) options.diffFilter = argv["diff-filter"];
 if (argv.format) options.format = argv.format;
 if (argv.output) options.output = argv.output;
 if (argv.prefix) options.prefix = argv.prefix;
+if (argv["dry-run"]) options.dryRun = true;
 if (argv.verbose) options.verbose = true;
 
 // archive
 gitDiffArchive(commit, oldCommit, options)
   .then((res) => {
     console.log(colors.cyan("Done!!"));
-    console.log(colors.cyan("Output >>> "), res.output);
+    console.log(`${colors.cyan("Output >>>")} ${res.output}`);
   })
   .catch((err) => {
     console.error(colors.red(`[Error] ${err}`));

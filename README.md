@@ -50,6 +50,7 @@ Options:
 
   -h, --help                 Displays this help.
   -v, --verbose              Show the append files and use git command.
+  -n, --dry-run              Don't actually create the files. just show what would be done.
   -f, --format (zip|tar)     Specified in the `zip` or `tar` the format of the archive.
   -o, --output               Output destination path of the archive. (Use `PATH_SYNTAX`)
   -p, --prefix               Prepended to the filenames in the archive. (Use `PATH_SYNTAX`)
@@ -70,6 +71,7 @@ PATH_SYNTAX:
 Defaults:
 
   --verbose     = false
+  --dry-run     = false
   --format      = zip
   --prefix      = {dirname}
   --output      = {dirname}-{datetime}.{format}
@@ -81,6 +83,7 @@ Examples:
   git_diff_archive
   git_diff_archive HEAD~3
   git_diff_archive HEAD~2 -v
+  git_diff_archive HEAD~5 -n
   git_diff_archive HEAD HEAD~3
   git_diff_archive 85d59ab
   git_diff_archive 596a7ca f489d4a
