@@ -41,7 +41,7 @@ if (argv.verbose) options.verbose = true;
 gitDiffArchive(commit, oldCommit, options)
   .then((res) => {
     console.log(colors.cyan("Done!!"));
-    console.log(colors.cyan("Output >>> "), res.output);
+    console.log(`${colors.cyan("Output >>>")} ${res.output}`);
   })
   .catch((err) => {
     console.error(colors.red(`[Error] ${err}`));

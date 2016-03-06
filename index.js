@@ -72,10 +72,13 @@ function gitDiffArchive(commit, oldCommit, options) {
       .then((archive) => {
         spinner.stop(true);
         if (params.verbose) {
+          console.log("");
           console.log(colors.blue("[DONE]"));
-          console.log(colors.blue("  command >>>"), cmd);
-          console.log(colors.blue("  prefix  >>>"), prefix);
-          console.log(colors.blue("  files   >>>"), files.join(", "));
+          console.log(`${colors.blue("  command:")} ${cmd}`);
+          console.log(`${colors.blue("  prefix :")} ${prefix}`);
+          console.log(`${colors.blue("  files  :")}`);
+          files.forEach(file => console.log(`    ${file}`));
+          console.log("");
         }
         resolve({
           bytes: archive.pointer(),
@@ -124,7 +127,7 @@ function createArchive(files, output, format, prefix, verbose, dryRun) {
   return new Promise((resolve, reject) => {
     if (dryRun) {
       console.log(colors.blue("[DRY RUN]"));
-      files.forEach(file => console.log(`> ${file}`));
+      files.forEach(file => console.log(file));
       return resolve({pointer: () => 0});
     }
 
@@ -140,7 +143,7 @@ function createArchive(files, output, format, prefix, verbose, dryRun) {
 
     archive.on("entry", (entry) => {
       if (verbose) {
-        console.log(colors.blue("[INFO] >>> "), entry.name);
+        console.log(`${colors.blue("Entried:")} ${entry.name}`);
       }
     });
 
