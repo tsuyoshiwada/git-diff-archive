@@ -28,7 +28,8 @@
   "author": "tsuyoshiwada",
   "license": "MIT",
   "bin": {
-    "git_diff_archive": "bin/git_diff_archive"
+    "git_diff_archive": "bin/git_diff_archive",
+    "gda": "bin/gda"
   },
   "dependencies": {
     "archiver": "^0.21.0",
