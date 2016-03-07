@@ -90,7 +90,6 @@ describe("git-diff-archive", () => {
         diffFilter: "AMCRDB"
       })
       .then((res) => {
-        console.log(res);
         assert(res.cmd === `git diff --name-only --diff-filter=AMCRDB ${ID1}`);
         assert(res.output === OUTPUT_PATH);
         assert(res.prefix === "hoge");
