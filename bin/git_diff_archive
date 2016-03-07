@@ -22,27 +22,28 @@ const argv = minimist(process.argv.slice(2), {
 // help
 if (argv.help) {
   fs.createReadStream(__dirname + "/usage.txt").pipe(process.stdout);
-  return;
+
+} else {
+  // parse options
+  const commits = argv._.slice();
+  const commit = commits[0];
+  const oldCommit = commits[1]
+  const options = {};
+  if (argv["diff-filter"]) options.diffFilter = argv["diff-filter"];
+  if (argv.format) options.format = argv.format;
+  if (argv.output) options.output = argv.output;
+  if (argv.prefix) options.prefix = argv.prefix;
+  if (argv["dry-run"]) options.dryRun = true;
+  if (argv.verbose) options.verbose = true;
+
+  // archive
+  gitDiffArchive(commit, oldCommit, options)
+    .then((res) => {
+      console.log(colors.cyan("Done!!"));
+      console.log(`${colors.cyan("Output >>>")} ${res.output}`);
+    })
+    .catch((err) => {
+      console.error(colors.red(`[Error] ${err}`));
+    });
 }
 
-// parse options
-const commits = argv._.slice();
-const commit = commits[0];
-const oldCommit = commits[1]
-const options = {};
-if (argv["diff-filter"]) options.diffFilter = argv["diff-filter"];
-if (argv.format) options.format = argv.format;
-if (argv.output) options.output = argv.output;
-if (argv.prefix) options.prefix = argv.prefix;
-if (argv["dry-run"]) options.dryRun = true;
-if (argv.verbose) options.verbose = true;
-
-// archive
-gitDiffArchive(commit, oldCommit, options)
-  .then((res) => {
-    console.log(colors.cyan("Done!!"));
-    console.log(`${colors.cyan("Output >>>")} ${res.output}`);
-  })
-  .catch((err) => {
-    console.error(colors.red(`[Error] ${err}`));
-  });

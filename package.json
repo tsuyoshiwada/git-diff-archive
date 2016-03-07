@@ -8,7 +8,7 @@
     "test:watch": "npm run mocha:watch",
     "mocha": "mocha -t 4000",
     "mocha:watch": "mocha -t 4000 -w",
-    "lint": "eslint index.js bin/**.js test/**.js"
+    "lint": "eslint index.js bin/git_diff_archive test/**.js"
   },
   "keywords": [
     "git",
