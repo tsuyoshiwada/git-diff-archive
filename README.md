@@ -22,11 +22,13 @@ $ npm install git-diff-archive -g
 ## USAGE
 
 Go to the working directory.  
-Then, run the `git_diff_archive` command.
+Then, run the `git_diff_archive` or `gda` command.
 
 ```bash
 $ cd /your/project/dir
 $ git_diff_archive HEAD HEAD~5
+# or
+$ gda HEAD HEAD~5
 ```
 
 In the above example, to archive the difference file of the current HEAD and five previous HEAD.
