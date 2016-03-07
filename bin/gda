@@ -39,10 +39,10 @@ if (argv.help) {
   // archive
   gitDiffArchive(commit, oldCommit, options)
     .then((res) => {
-      console.log(colors.cyan("Done!!"));
-      console.log(`${colors.cyan("Output >>>")} ${res.output}`);
+      console.log(colors.cyan.bold("Done!!"));
+      console.log(`${colors.cyan.bold("Output >>>")} ${res.output}`);
     })
     .catch((err) => {
-      console.error(colors.red(`[Error] ${err}`));
+      console.error(colors.red.bold(`[Error] ${err}`));
     });
 }

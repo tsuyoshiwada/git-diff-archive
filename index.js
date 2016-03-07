@@ -73,10 +73,10 @@ function gitDiffArchive(commit, oldCommit, options) {
         spinner.stop(true);
         if (params.verbose) {
           console.log("");
-          console.log(colors.blue("[DONE]"));
-          console.log(`${colors.blue("  command:")} ${cmd}`);
-          console.log(`${colors.blue("  prefix :")} ${prefix}`);
-          console.log(`${colors.blue("  files  :")}`);
+          console.log(colors.blue.bold("[DONE]"));
+          console.log(`${colors.blue.bold("  command:")} ${cmd}`);
+          console.log(`${colors.blue.bold("  prefix :")} ${prefix}`);
+          console.log(`${colors.blue.bold("  files  :")}`);
           files.forEach(file => console.log(`    ${file}`));
           console.log("");
         }
@@ -126,8 +126,8 @@ function filterExistsFiles(files) {
 function createArchive(files, output, format, prefix, verbose, dryRun) {
   return new Promise((resolve, reject) => {
     if (dryRun) {
-      console.log(colors.blue("[DRY RUN]"));
-      files.forEach(file => console.log(file));
+      console.log(colors.blue.bold("[DRY RUN]"));
+      files.forEach(file => console.log(`  ${file}`));
       return resolve({pointer: () => 0});
     }
 
@@ -143,7 +143,7 @@ function createArchive(files, output, format, prefix, verbose, dryRun) {
 
     archive.on("entry", (entry) => {
       if (verbose) {
-        console.log(`${colors.blue("Entried:")} ${entry.name}`);
+        console.log(`${colors.blue.bold("Entried:")} ${entry.name}`);
       }
     });
 
