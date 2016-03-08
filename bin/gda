@@ -16,6 +16,23 @@ const argv = minimist(process.argv.slice(2), {
     n: "dry-run",
     v: "verbose",
     h: "help"
+  },
+  string: [
+    "diff-filter",
+    "format",
+    "output",
+    "prefix",
+    "_"
+  ],
+  boolean: [
+    "dry-run",
+    "verbose",
+    "help"
+  ],
+  default: {
+    "verbose": false,
+    "dry-run": false,
+    "help": null
   }
 });
 
