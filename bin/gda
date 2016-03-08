@@ -8,6 +8,8 @@ const minimist = require("minimist");
 const colors = require("colors");
 const gitDiffArchive = require("../");
 
+const VERSION = "0.2.5";
+
 const argv = minimist(process.argv.slice(2), {
   alias: {
     F: "diff-filter",
@@ -46,7 +48,7 @@ if (argv.help) {
 
 // version
 } else if (argv.version) {
-  const pkg = require(path.join(__dirname, "/../package.json"));
+  console.log(VERSION);
   process.exit(0);
 
 } else {
