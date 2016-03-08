@@ -3,6 +3,7 @@
 "use strict";
 
 const fs = require("fs");
+const path = require("path");
 const minimist = require("minimist");
 const colors = require("colors");
 const gitDiffArchive = require("../");
@@ -15,6 +16,7 @@ const argv = minimist(process.argv.slice(2), {
     p: "prefix",
     n: "dry-run",
     v: "verbose",
+    V: "version",
     h: "help"
   },
   string: [
@@ -27,18 +29,25 @@ const argv = minimist(process.argv.slice(2), {
   boolean: [
     "dry-run",
     "verbose",
-    "help"
+    "help",
+    "version"
   ],
   default: {
     "verbose": false,
     "dry-run": false,
-    "help": null
+    "help": false,
+    "version": false
   }
 });
 
 // help
 if (argv.help) {
   fs.createReadStream(__dirname + "/usage.txt").pipe(process.stdout);
+
+// version
+} else if (argv.version) {
+  const pkg = require(path.join(__dirname, "/../package.json"));
+  process.exit(0);
 
 } else {
   // parse options
