@@ -63,8 +63,6 @@ describe("git-diff-archive", () => {
             assert(files.indexOf(`${OUTPUT_DIR}/git-diff-archive/README.md`) > -1);
             assert(files.indexOf(`${OUTPUT_DIR}/git-diff-archive/bin/usage.txt`) > -1);
             assert(files.indexOf(`${OUTPUT_DIR}/git-diff-archive/package.json`) > -1);
-            assert(res.exclude.length === 1);
-            assert(res.exclude.indexOf("bin/cmd.js") > -1);
             done();
           });
       });
