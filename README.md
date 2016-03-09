@@ -51,6 +51,7 @@ Description:
 Options:
 
   -h, --help                 Displays this help.
+  -V, --version              Displays current version of this package.
   -v, --verbose              Show the append files and use git command.
   -n, --dry-run              Don't actually create the files. just show what would be done.
   -f, --format (zip|tar)     Specified in the `zip` or `tar` the format of the archive.
