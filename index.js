@@ -48,8 +48,8 @@ function gitDiffArchive(commit, oldCommit, options) {
     let diff = "";
 
     if (commit1 !== undefined) {
-      if (commit2 == null) {
-        diff = commit1;
+    if (commit2 == null) {
+      diff = commit1;
       } else {
         diff = `${commit1} ${commit2}`;
       }
@@ -57,7 +57,8 @@ function gitDiffArchive(commit, oldCommit, options) {
 
     const cmd = `git diff --name-only --diff-filter=${params.diffFilter} ${diff}`;
     const lines = getExecLines(cmd);
-    const files = filterExistsFiles(lines);
+    const files = filterFiles(lines, true);
+    const exclude = filterFiles(lines, false);
     const output = createPath(params.output, params.format);
     const prefix = createPath(params.prefix, params.format);
     const spinner = new Spinner("processing... %s");
@@ -71,13 +72,17 @@ function gitDiffArchive(commit, oldCommit, options) {
     createArchive(files, output, params.format, prefix, params.verbose, params.dryRun)
       .then((archive) => {
         spinner.stop(true);
-        if (params.verbose) {
+        if (params.dryRun || params.verbose) {
           console.log("");
-          console.log(colors.blue.bold("[DONE]"));
+          console.log(colors.blue.bold(`[${params.dryRun ? "DRY RUN" : "DONE"}]`));
           console.log(`${colors.blue.bold("  command:")} ${cmd}`);
           console.log(`${colors.blue.bold("  prefix :")} ${prefix}`);
-          console.log(`${colors.blue.bold("  files  :")}`);
-          files.forEach(file => console.log(`    ${file}`));
+          if (!params.verbose) {
+            console.log(`${colors.blue.bold("  files  :")}`);
+            files.forEach(file => console.log(`    ${file}`));
+          }
+          console.log(`${colors.blue.bold("  exclude:")}`);
+          exclude.forEach(file => console.log(`    ${file}`));
           console.log("");
         }
         resolve({
@@ -85,7 +90,8 @@ function gitDiffArchive(commit, oldCommit, options) {
           cmd,
           output,
           prefix,
-          files
+          files,
+          exclude
         });
       })
       .catch((err) => {
@@ -113,12 +119,13 @@ function getExecLines(cmd) {
   return result.split("\n");
 }
 
-function filterExistsFiles(files) {
+function filterFiles(files, exist) {
   return files.filter((file) => {
     try {
-      return fs.statSync(file).isFile();
+      const isFile = fs.statSync(file).isFile();
+      return exist ? isFile : !isFile;
     } catch (e) {
-      return false;
+      return !exist;
     }
   });
 }
@@ -126,8 +133,6 @@ function filterExistsFiles(files) {
 function createArchive(files, output, format, prefix, verbose, dryRun) {
   return new Promise((resolve, reject) => {
     if (dryRun) {
-      console.log(colors.blue.bold("[DRY RUN]"));
-      files.forEach(file => console.log(`  ${file}`));
       return resolve({pointer: () => 0});
     }
 
