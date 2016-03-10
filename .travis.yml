@@ -11,3 +11,5 @@ branches:
     - develop
 notifications:
   email: false
+git:
+  depth: 9999999
