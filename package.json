@@ -14,9 +14,14 @@
     "git",
     "cli",
     "archive",
+    "diff",
     "zip",
     "tar"
   ],
+  "preferGlobal": true,
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/tsuyoshiwada/git-diff-archive.git"
