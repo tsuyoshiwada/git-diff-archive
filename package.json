@@ -45,6 +45,7 @@
     "node-alias": "^1.0.4",
     "object-assign": "^4.0.1",
     "string-template": "^1.0.0",
+    "update-notifier": "^0.6.1",
     "which": "^1.2.4"
   },
   "devDependencies": {

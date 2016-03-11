@@ -4,9 +4,15 @@
 
 const fs = require("fs");
 const path = require("path");
+const updateNotifier = require("update-notifier");
 const minimist = require("minimist");
 const colors = require("colors");
 const gitDiffArchive = require("../");
+const pkg = require("../package.json");
+
+
+updateNotifier({pkg}).notify({defer: false});
+
 
 const argv = minimist(process.argv.slice(2), {
   alias: {
@@ -46,7 +52,7 @@ if (argv.help) {
 
 // version
 } else if (argv.version) {
-  console.log(require("../package").version);
+  console.log(pkg.version);
   process.exit(0);
 
 } else {
