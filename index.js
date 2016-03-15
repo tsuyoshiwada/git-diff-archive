@@ -68,10 +68,16 @@ function gitDiffArchive(commit, oldCommit, options) {
       return reject("diff file does not exist");
     }
 
-    spinner.start();
+    if (!params.verbose) {
+      spinner.start();
+    }
+
     createArchive(files, output, params.format, prefix, params.verbose, params.dryRun)
       .then((archive) => {
-        spinner.stop(true);
+        if (!params.verbose) {
+          spinner.stop(true);
+        }
+
         if (params.dryRun || params.verbose) {
           console.log("");
           console.log(colors.blue.bold(`[${params.dryRun ? "DRY RUN" : "DONE"}]`));
