@@ -68,10 +68,16 @@ function gitDiffArchive(commit, oldCommit, options) {
       return reject("diff file does not exist");
     }
 
-    spinner.start();
+    if (!params.verbose) {
+      spinner.start();
+    }
+
     createArchive(files, output, params.format, prefix, params.verbose, params.dryRun)
       .then((archive) => {
-        spinner.stop(true);
+        if (!params.verbose) {
+          spinner.stop(true);
+        }
+
         if (params.dryRun || params.verbose) {
           console.log("");
           console.log(colors.blue.bold(`[${params.dryRun ? "DRY RUN" : "DONE"}]`));
@@ -141,6 +147,7 @@ function createArchive(files, output, format, prefix, verbose, dryRun) {
 
     const stream = fs.createWriteStream(output);
     const archive = archiver(format);
+    let count = 0;
 
     stream.on("close", () => {
       resolve(archive);
@@ -148,7 +155,8 @@ function createArchive(files, output, format, prefix, verbose, dryRun) {
 
     archive.on("entry", (entry) => {
       if (verbose) {
-        console.log(`${colors.blue.bold("Entried:")} ${entry.name}`);
+        count++;
+        console.log(`${colors.blue.bold(`Entry (${count}/${files.length}):`)} ${entry.name}`);
       }
     });
 
