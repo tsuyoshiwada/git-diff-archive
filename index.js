@@ -147,6 +147,7 @@ function createArchive(files, output, format, prefix, verbose, dryRun) {
 
     const stream = fs.createWriteStream(output);
     const archive = archiver(format);
+    let count = 0;
 
     stream.on("close", () => {
       resolve(archive);
@@ -154,7 +155,8 @@ function createArchive(files, output, format, prefix, verbose, dryRun) {
 
     archive.on("entry", (entry) => {
       if (verbose) {
-        console.log(`${colors.blue.bold("Entried:")} ${entry.name}`);
+        count++;
+        console.log(`${colors.blue.bold(`Entry (${count}/${files.length}):`)} ${entry.name}`);
       }
     });
 
