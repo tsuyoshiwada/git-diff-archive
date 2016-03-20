@@ -4,8 +4,8 @@ git-diff-archive
 [![Build Status](http://img.shields.io/travis/tsuyoshiwada/git-diff-archive.svg?style=flat-square)](https://travis-ci.org/tsuyoshiwada/git-diff-archive)
 [![npm version](https://img.shields.io/npm/v/git-diff-archive.svg?style=flat-square)](http://badge.fury.io/js/git-diff-archive)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/tsuyoshiwada/git-diff-archive/master/LICENSE)
-[![Dependency Status](https://img.shields.io/david/tsuyoshiwada/git-diff-archive.svg)](https://david-dm.org/tsuyoshiwada/git-diff-archive)
-[![devDependency Status](https://img.shields.io/david/dev/tsuyoshiwada/git-diff-archive.svg)](https://david-dm.org/tsuyoshiwada/git-diff-archive#info=devDependencies)
+[![Dependency Status](https://img.shields.io/david/tsuyoshiwada/git-diff-archive.svg?style=flat-square)](https://david-dm.org/tsuyoshiwada/git-diff-archive)
+[![devDependency Status](https://img.shields.io/david/dev/tsuyoshiwada/git-diff-archive.svg?style=flat-square)](https://david-dm.org/tsuyoshiwada/git-diff-archive#info=devDependencies)
 
 Archive of the diff files using node.js and git.
 
