@@ -65,7 +65,7 @@ Options:
 
 PATH_SYNTAX:
 
-  {dirname}   Directory name when you call the command.
+  {dirname}   Current git directory name when you call the command.
   {date}      Today's date.
   {time}      Current time.
   {datetime}  {date} and {time}.
