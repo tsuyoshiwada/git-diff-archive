@@ -39,6 +39,8 @@ function gitDiffArchive(commit, oldCommit, options) {
 
     if (!gitCommandExists()) {
       return reject("git command not exist");
+    } else {
+      params.basePath = gitBasePath();
     }
 
     if (!isSupportFormat(params.format)) {
@@ -56,11 +58,12 @@ function gitDiffArchive(commit, oldCommit, options) {
     }
 
     const cmd = `git diff --name-only --diff-filter=${params.diffFilter} ${diff}`;
-    const lines = getExecLines(cmd);
+    const lines = getExecLines(cmd).map(file => path.join(params.basePath, file));
     const files = filterFiles(lines, true);
     const exclude = filterFiles(lines, false);
-    const output = createPath(params.output, params.format);
-    const prefix = createPath(params.prefix, params.format);
+    params.output = createPath(params.output, params.format);
+    params.prefix = createPath(params.prefix, params.format);
+
     const spinner = new Spinner("processing... %s");
     spinner.setSpinnerString(spinnerStringID);
 
@@ -72,7 +75,7 @@ function gitDiffArchive(commit, oldCommit, options) {
       spinner.start();
     }
 
-    createArchive(files, output, params.format, prefix, params.verbose, params.dryRun)
+    createArchive(files, params)
       .then((archive) => {
         if (!params.verbose) {
           spinner.stop(true);
@@ -82,7 +85,7 @@ function gitDiffArchive(commit, oldCommit, options) {
           console.log("");
           console.log(colors.blue.bold(`[${params.dryRun ? "DRY RUN" : "DONE"}]`));
           console.log(`${colors.blue.bold("  command:")} ${cmd}`);
-          console.log(`${colors.blue.bold("  prefix :")} ${prefix}`);
+          console.log(`${colors.blue.bold("  prefix :")} ${params.prefix}`);
           if (!params.verbose) {
             console.log(`${colors.blue.bold("  files  :")}`);
             files.forEach(file => console.log(`    ${file}`));
@@ -93,9 +96,9 @@ function gitDiffArchive(commit, oldCommit, options) {
         }
         resolve({
           bytes: archive.pointer(),
+          output: params.output,
+          prefix: params.prefix,
           cmd,
-          output,
-          prefix,
           files,
           exclude
         });
@@ -120,6 +123,10 @@ function gitCommandExists() {
   }
 }
 
+function gitBasePath() {
+  return execSync("git rev-parse --show-cdup", {encoding: "utf8"}).trim();
+}
+
 function getExecLines(cmd) {
   const result = execSync(cmd, {encoding: "utf8"}).trim().replace(/\r\n?/g, "\n");
   return result.split("\n");
@@ -136,17 +143,17 @@ function filterFiles(files, exist) {
   });
 }
 
-function createArchive(files, output, format, prefix, verbose, dryRun) {
+function createArchive(files, params) {
   return new Promise((resolve, reject) => {
-    if (dryRun) {
+    if (params.dryRun) {
       return resolve({pointer: () => 0});
     }
 
-    const dir = path.dirname(output);
+    const dir = path.dirname(params.output);
     mkdirp.sync(dir);
 
-    const stream = fs.createWriteStream(output);
-    const archive = archiver(format);
+    const stream = fs.createWriteStream(params.output);
+    const archive = archiver(params.format);
     let count = 0;
 
     stream.on("close", () => {
@@ -154,7 +161,7 @@ function createArchive(files, output, format, prefix, verbose, dryRun) {
     });
 
     archive.on("entry", (entry) => {
-      if (verbose) {
+      if (params.verbose) {
         count++;
         console.log(`${colors.blue.bold(`Entry (${count}/${files.length}):`)} ${entry.name}`);
       }
@@ -169,7 +176,7 @@ function createArchive(files, output, format, prefix, verbose, dryRun) {
     files.forEach((file) => {
       archive.append(fs.createReadStream(file), {
         name: file,
-        prefix
+        prefix: params.prefix
       });
     });
 
@@ -182,7 +189,8 @@ function createPath(src, format) {
   const date = getDate(d);
   const time = getTime(d);
   const datetime = [date, time].join("");
-  const dirname = process.cwd().split(path.sep).pop();
+  const cwd = path.join(process.cwd(), gitBasePath()).replace(/\/$/, "");
+  const dirname = cwd.split(path.sep).pop();
   const random = Math.random().toString(36).slice(-8);
 
   return template(src, {
