@@ -33,6 +33,7 @@ module.exports = gitDiffArchive;
 
 function gitDiffArchive(commit, oldCommit, options) {
   return new Promise((resolve, reject) => {
+    const startTime = Date.now();
     const commit1 = commit;
     const commit2 = typeof oldCommit === "string" ? oldCommit : null;
     const params = assign({}, defaults, typeof oldCommit === "object" ? oldCommit : (options || {}));
@@ -81,20 +82,8 @@ function gitDiffArchive(commit, oldCommit, options) {
           spinner.stop(true);
         }
 
-        if (params.dryRun || params.verbose) {
-          console.log("");
-          console.log(colors.blue.bold(`[${params.dryRun ? "DRY RUN" : "DONE"}]`));
-          console.log(`${colors.blue.bold("  command:")} ${cmd}`);
-          console.log(`${colors.blue.bold("  prefix :")} ${params.prefix}`);
-          if (!params.verbose) {
-            console.log(`${colors.blue.bold("  files  :")}`);
-            files.forEach(file => console.log(`    ${file}`));
-          }
-          console.log(`${colors.blue.bold("  exclude:")}`);
-          exclude.forEach(file => console.log(`    ${file}`));
-          console.log("");
-        }
         resolve({
+          time: Date.now() - startTime,
           bytes: archive.pointer(),
           output: params.output,
           prefix: params.prefix,

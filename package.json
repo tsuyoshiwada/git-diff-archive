@@ -8,7 +8,7 @@
     "test:watch": "npm run mocha:watch",
     "mocha": "mocha -t 4000",
     "mocha:watch": "mocha -t 4000 -w",
-    "lint": "eslint index.js bin/git_diff_archive test/**.js"
+    "lint": "eslint index.js bin/git_diff_archive bin/gda test/**.js"
   },
   "keywords": [
     "git",
@@ -39,11 +39,14 @@
   "dependencies": {
     "archiver": "^0.21.0",
     "cli-spinner": "^0.2.4",
+    "cli-table": "^0.3.1",
     "colors": "^1.1.2",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "node-alias": "^1.0.4",
+    "numeral": "^1.5.3",
     "object-assign": "^4.0.1",
+    "pretty-bytes": "^3.0.1",
     "string-template": "^1.0.0",
     "update-notifier": "^0.6.2",
     "which": "^1.2.4"
