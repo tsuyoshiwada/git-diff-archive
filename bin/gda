@@ -7,6 +7,9 @@ const path = require("path");
 const updateNotifier = require("update-notifier");
 const minimist = require("minimist");
 const colors = require("colors");
+const numeral = require("numeral");
+const prettyBytes = require("pretty-bytes");
+const Table = require("cli-table");
 const gitDiffArchive = require("../");
 const pkg = require("../package.json");
 
@@ -46,6 +49,28 @@ const argv = minimist(process.argv.slice(2), {
   }
 });
 
+const table = new Table({
+  chars: {
+    "top": "═",
+    "top-mid": "╤",
+    "top-left": "╔",
+    "top-right": "╗",
+    "bottom": "═",
+    "bottom-mid": "╧",
+    "bottom-left": "╚",
+    "bottom-right": "╝",
+    "left": "║",
+    "left-mid": "╟",
+    "right": "║",
+    "right-mid": "╢"
+  },
+  style: {
+    head: [],
+    border: []
+  }
+});
+
+
 // help
 if (argv.help) {
   fs.createReadStream(__dirname + "/usage.txt").pipe(process.stdout);
@@ -71,8 +96,15 @@ if (argv.help) {
   // archive
   gitDiffArchive(commit, oldCommit, options)
     .then((res) => {
-      console.log(colors.cyan.bold("Done!!"));
-      console.log(`${colors.cyan.bold("Output >>>")} ${res.output}`);
+      table.push(
+        [colors.green.bold("Processing Time"), `${numeral(res.time).format("0,0")} ms`],
+        [colors.green.bold("Git Command"), res.cmd],
+        [colors.green.bold("Output"), `${res.output} (${prettyBytes(res.bytes)})`],
+        [colors.green.bold("Prefix"), res.prefix],
+        [colors.green.bold("Files"), res.files.join("\n")],
+        [colors.green.bold("Exclude"), res.exclude.join("\n")]
+      );
+      console.log(table.toString());
     })
     .catch((err) => {
       console.error(colors.red.bold(`[Error] ${err}`));
