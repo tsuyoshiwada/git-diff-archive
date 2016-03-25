@@ -11,6 +11,12 @@ Archive of the diff files using node.js and git.
 
 
 
+## SCREEN SHOT
+
+![SCREEN SHOT](https://raw.githubusercontent.com/tsuyoshiwada/git-diff-archive/images/screenshot.png)
+
+
+
 ## INSTALL
 
 It is recommended a global installation.
