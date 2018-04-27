@@ -54,7 +54,7 @@ function gitDiffArchive(commit, oldCommit, options) {
     if (commit2 == null) {
       diff = commit1;
       } else {
-        diff = `${commit1} ${commit2}`;
+        diff = `${commit2} ${commit1}`;
       }
     }
 
