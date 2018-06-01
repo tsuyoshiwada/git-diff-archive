@@ -91,6 +91,25 @@ describe("git-diff-archive", () => {
             });
         });
     });
+
+    it("rebase root", (done) => {
+      gitDiffArchive(ID1, ID2, {output: OUTPUT_PATH, base: 'bin'})
+        .then((res) => {
+          const stat = fs.statSync(OUTPUT_PATH);
+          assert(stat.isFile() === true);
+          assert(res.base === 'bin');
+
+          fs.createReadStream(OUTPUT_PATH)
+            .pipe(unzip.Extract(({path: OUTPUT_DIR})))
+            .on("close", () => {
+              const files = glob.sync(`${OUTPUT_DIR}/**/*`, {nodir: true, dot: true});
+              assert(files.length === 2);
+              assert(files.indexOf(OUTPUT_PATH) > -1);
+              assert(files.indexOf(`${OUTPUT_DIR}/git-diff-archive/usage.txt`) > -1);
+              done();
+            });
+        });
+    });
   });
 
   describe("should arguments are passed", () => {

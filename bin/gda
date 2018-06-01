@@ -23,6 +23,7 @@ const argv = minimist(process.argv.slice(2), {
     f: "format",
     o: "output",
     p: "prefix",
+    b: "base",
     n: "dry-run",
     v: "verbose",
     V: "version",
@@ -33,6 +34,7 @@ const argv = minimist(process.argv.slice(2), {
     "format",
     "output",
     "prefix",
+    "base",
     "_"
   ],
   boolean: [
@@ -95,6 +97,7 @@ if (argv.help) {
   if (argv.format) options.format = argv.format;
   if (argv.output) options.output = argv.output;
   if (argv.prefix) options.prefix = argv.prefix;
+  if (argv.base) options.base = argv.base;
   if (argv["dry-run"]) options.dryRun = true;
   if (argv.verbose) options.verbose = true;
 
@@ -106,6 +109,7 @@ if (argv.help) {
         {"Git Command"    : res.cmd},
         {"Output"         : `${res.output} (${prettyBytes(res.bytes)})`},
         {"Prefix"         : res.prefix},
+        {"Base"           : res.base},
         {"Files"          : res.files.join("\n")},
         {"Exclude"        : res.exclude.join("\n")}
       );
