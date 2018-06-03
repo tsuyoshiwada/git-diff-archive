@@ -20,6 +20,7 @@ Options:
   -f, --format (zip|tar)     Specified in the `zip` or `tar` the format of the archive.
   -o, --output               Output destination path of the archive. (Use `PATH_SYNTAX`)
   -p, --prefix               Prepended to the filenames in the archive. (Use `PATH_SYNTAX`)
+  -b, --base                 Rebase the file paths in the archive. Specified path will be the root.
   -F, --diff-filter          `git diff --diff-filter` and a similar designation.
       (A|C|D|M|R|T|U|X|B|*)
 
@@ -41,6 +42,7 @@ Defaults:
   --format      = zip
   --prefix      = {dirname}
   --output      = {dirname}-{datetime}.{format}
+  --base        = .
   --diff-filter = ACDMRTUXB
 
 

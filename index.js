@@ -16,6 +16,7 @@ const defaults = {
   format: "zip",
   prefix: "{dirname}",
   output: "{dirname}-{datetime}.{format}",
+  base: ".",
   verbose: false,
   dryRun: false
 };
@@ -41,7 +42,8 @@ function gitDiffArchive(commit, oldCommit, options) {
     if (!gitCommandExists()) {
       return reject("git command not exist");
     } else {
-      params.basePath = gitBasePath();
+      params.gitBasePath = gitBasePath();
+      params.base = path.join(params.gitBasePath, params.base)
     }
 
     if (!isSupportFormat(params.format)) {
@@ -59,9 +61,9 @@ function gitDiffArchive(commit, oldCommit, options) {
     }
 
     const cmd = `git diff --name-only --diff-filter=${params.diffFilter} ${diff}`;
-    const lines = getExecLines(cmd).map(file => path.join(params.basePath, file));
-    const files = filterFiles(lines, true);
-    const exclude = filterFiles(lines, false);
+    const lines = getExecLines(cmd).map(file => path.join(params.gitBasePath, file));
+    const files = rebaseFiles(filterFiles(lines, true), params.base);
+    const exclude = rebaseFiles(filterFiles(lines, false), params.base);
     params.output = createPath(params.output, params.format);
     params.prefix = createPath(params.prefix, params.format);
 
@@ -87,6 +89,7 @@ function gitDiffArchive(commit, oldCommit, options) {
           bytes: archive.pointer(),
           output: params.output,
           prefix: params.prefix,
+          base: params.base,
           cmd,
           files,
           exclude
@@ -132,6 +135,12 @@ function filterFiles(files, exist) {
   });
 }
 
+function rebaseFiles(files, base) {
+  return files
+    .map((file) => path.relative(base, file))
+    .filter((file) => !/^\.\.\//.test(file)); // exclude files out of the base path
+}
+
 function createArchive(files, params) {
   return new Promise((resolve, reject) => {
     if (params.dryRun) {
@@ -163,10 +172,13 @@ function createArchive(files, params) {
     archive.pipe(stream);
 
     files.forEach((file) => {
-      archive.append(fs.createReadStream(file), {
-        name: file,
-        prefix: params.prefix
-      });
+      archive.append(
+        fs.createReadStream(path.join(params.base, file)),
+        {
+          name: file,
+          prefix: params.prefix
+        }
+      );
     });
 
     archive.finalize();
