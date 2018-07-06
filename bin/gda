@@ -23,6 +23,7 @@ const argv = minimist(process.argv.slice(2), {
     f: "format",
     o: "output",
     p: "prefix",
+    P: "no-prefix",
     b: "base",
     n: "dry-run",
     v: "verbose",
@@ -39,6 +40,7 @@ const argv = minimist(process.argv.slice(2), {
   ],
   boolean: [
     "dry-run",
+    "no-prefix",
     "verbose",
     "help",
     "version"
@@ -97,6 +99,7 @@ if (argv.help) {
   if (argv.format) options.format = argv.format;
   if (argv.output) options.output = argv.output;
   if (argv.prefix) options.prefix = argv.prefix;
+  if (argv["no-prefix"]) options.noPrefix = true;
   if (argv.base) options.base = argv.base;
   if (argv["dry-run"]) options.dryRun = true;
   if (argv.verbose) options.verbose = true;
