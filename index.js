@@ -65,7 +65,7 @@ function gitDiffArchive(commit, oldCommit, options) {
     const files = rebaseFiles(filterFiles(lines, true), params.base);
     const exclude = rebaseFiles(filterFiles(lines, false), params.base);
     params.output = createPath(params.output, params.format);
-    params.prefix = createPath(params.prefix, params.format);
+    params.prefix = !params.noPrefix && createPath(params.prefix, params.format);
 
     const spinner = new Spinner("processing... %s");
     spinner.setSpinnerString(spinnerStringID);
