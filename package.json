@@ -1,6 +1,6 @@
 {
   "name": "git-diff-archive",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Archive of the diff files using node.js and git.",
   "main": "index.js",
   "scripts": {
