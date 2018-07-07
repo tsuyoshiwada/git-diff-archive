@@ -64,7 +64,8 @@ Options:
   -n, --dry-run              Don't actually create the files. just show what would be done.
   -f, --format (zip|tar)     Specified in the `zip` or `tar` the format of the archive.
   -o, --output               Output destination path of the archive. (Use `PATH_SYNTAX`)
-  -p, --prefix               Prepended to the filenames in the archive. (Use `PATH_SYNTAX`)
+  -p, --prefix               Prefixed to the filenames in the archive. (Use `PATH_SYNTAX`) [default: <current-dir>]
+  -P, --no-prefix            Prefix nothing to the filenames in the archive.
   -b, --base                 Rebase the file paths in the archive. Specified path will be the root.
   -F, --diff-filter          `git diff --diff-filter` and a similar designation.
       (A|C|D|M|R|T|U|X|B|*)
